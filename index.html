@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <title>GEBER LIGHTING — FIXED (Rainbow & Chase) + Wallwasher/Parled/Import BG + Resize/Rotate</title>
+    <title>GEBER LIGHTING — FIXED + SAVE/LOAD PROJECT (NO GOBO ANIM)</title>
     <style>
     :root{
       --bg:#000;
@@ -73,13 +73,11 @@
   <b>GEBER LIGHTING</b><br>
   MASIH KEADAAN BETA YO KALO BUG KABARIN
 </div>
-
 <script>
-// Hilang dengan efek fade-out setelah 3 detik
 setTimeout(() => {
   const w = document.getElementById("welcome");
   w.style.opacity = "0";
-  setTimeout(() => w.style.display = "none", 1000); // tunggu animasi selesai
+  setTimeout(() => w.style.display = "none", 1000);
 }, 3000);
 </script>
 <div id="app">
@@ -88,6 +86,11 @@ setTimeout(() => {
   </div>
   <div class="panel" id="panel">
     <button id="powerBtn" class="bigBtn">POWER ON</button>
+    <div class="row" style="margin-top:10px;">
+      <button id="saveProjectBtn" class="smallBtn">Save Project</button>
+      <input type="file" id="loadProjectInput" accept=".geber,.json" style="display:none">
+      <button id="loadProjectBtn" class="smallBtn">Load Project</button>
+    </div>
     <div class="row">
       <div class="col">
         <div class="label">Jumlah Beam</div>
@@ -173,14 +176,13 @@ setTimeout(() => {
         <button id="clearSlots" class="smallBtn">Clear</button>
       </div>
     </div>
-<div class="label">Background (Foto / Video)</div>
+<div class="label">Video Background (seting vidio tron di apk am</div>
 <div class="fileRow">
-  <input id="tronVideoFile" type="file" accept="image/*,video/*">
-  <button id="playTron" class="smallBtn">Play</button>
-  <button id="pauseTron" class="smallBtn">Pause</button>
-  <button id="clearTron" class="smallBtn">Clear</button>
-</div>
-<!-- === MARTIN STROBO CONTROLS === -->
+  <input id="tronVideoFile" type="file" accept="video/*">
+  <button id="playTron" class="smallBtn">Play Tron</button>
+  <button id="pauseTron" class="smallBtn">Pause Tron</button>
+  <button id="clearTron" class="smallBtn">Clear Tron</button>
+  </div>
 <div style="margin-top:6px">
   <div class="label">Martin Strobo Controls</div>
   <div class="row">
@@ -198,45 +200,45 @@ setTimeout(() => {
     </div>
   </div>
 </div>
-    <div style="margin-top:6px">
-      <div class="label">Wallwasher Controls</div>
-      <div class="row">
-        <div class="col">
-          <div class="label">Jumlah Wallwasher</div>
-          <input id="wallCount" type="range" min="0" max="8" step="1" value="3">
-          <div class="small">Wallwashers: <span id="wallCountLabel">3</span></div>
-        </div>
-        <div class="col">
-          <div class="label">Spawn / Reset</div>
-          <div class="controlGroup">
-            <button id="spawnWall" class="smallBtn">Spawn</button>
-            <button id="clearWall" class="smallBtn">Clear</button>
-          </div>
-        </div>
+<div style="margin-top:6px">
+  <div class="label">Wallwasher Controls</div>
+  <div class="row">
+    <div class="col">
+      <div class="label">Jumlah Wallwasher</div>
+      <input id="wallCount" type="range" min="0" max="8" step="1" value="3">
+      <div class="small">Wallwashers: <span id="wallCountLabel">3</span></div>
+    </div>
+    <div class="col">
+      <div class="label">Spawn / Reset</div>
+      <div class="controlGroup">
+        <button id="spawnWall" class="smallBtn">Spawn</button>
+        <button id="clearWall" class="smallBtn">Clear</button>
       </div>
     </div>
-    <div style="margin-top:6px">
-      <div class="label">ParLED Controls</div>
-      <div class="row">
-        <div class="col">
-          <div class="label">Jumlah Parled</div>
-          <input id="parCount" type="range" min="0" max="12" step="1" value="4">
-          <div class="small">Parleds: <span id="parCountLabel">4</span></div>
-        </div>
-        <div class="col">
-          <div class="label">Spawn / Reset</div>
-          <div class="controlGroup">
-            <button id="spawnPar" class="smallBtn">Spawn</button>
-            <button id="clearPar" class="smallBtn">Clear</button>
-          </div>
-          <input type="range" min="1" max="8" value="4" id="miniBruteCount">
+  </div>
+</div>
+<div style="margin-top:6px">
+  <div class="label">ParLED Controls</div>
+  <div class="row">
+    <div class="col">
+      <div class="label">Jumlah Parled</div>
+      <input id="parCount" type="range" min="0" max="12" step="1" value="4">
+      <div class="small">Parleds: <span id="parCountLabel">4</span></div>
+    </div>
+    <div class="col">
+      <div class="label">Spawn / Reset</div>
+      <div class="controlGroup">
+        <button id="spawnPar" class="smallBtn">Spawn</button>
+        <button id="clearPar" class="smallBtn">Clear</button>
+      </div>
+      <input type="range" min="1" max="8" value="4" id="miniBruteCount">
 <button onclick="spawnMiniBrutes(parseInt(document.getElementById('miniBruteCount').value))">
   Spawn MiniBrute
 </button>
-        </div>
-      </div>
     </div>
-    <div class="row" style="margin-top:6px">
+  </div>
+</div>
+<div class="row" style="margin-top:6px">
   <div class="col">
     <div class="label">Ukuran Martin Strobo</div>
     <input id="martinScale" type="range" min="0.5" max="2" step="0.1" value="1">
@@ -246,21 +248,21 @@ setTimeout(() => {
     <input id="martinRotate" type="range" min="-180" max="180" step="5" value="0">
   </div>
 </div>
-    <div style="margin-top:8px" class="row">
-      <div class="col">
-        <div class="label">Ukuran Wallwasher</div>
-        <input id="wallScale" type="range" min="0.5" max="2" step="0.1" value="1">
-      </div>
-      <div class="col">
-        <div class="label">Rotasi Wallwasher (°)</div>
-        <input id="wallRotate" type="range" min="-180" max="180" step="5" value="0">
-      </div>
+<div style="margin-top:8px" class="row">
+  <div class="col">
+    <div class="label">Ukuran Wallwasher</div>
+    <input id="wallScale" type="range" min="0.5" max="2" step="0.1" value="1">
+  </div>
+  <div class="col">
+    <div class="label">Rotasi Wallwasher (°)</div>
+    <input id="wallRotate" type="range" min="-180" max="180" step="5" value="0">
+  </div>
 <input type="color" id="goboColor1" value="#ff00ff">
 <input type="color" id="goboColor2" value="#ffffff">
 <input type="color" id="goboColor3" value="#ff66ff">
-    </div>
-  <button id="goboColorBtn">GOBO COLOR OFF</button>
-    <div class="label">Cross Color Custom</div>
+</div>
+<button id="goboColorBtn">GOBO COLOR OFF</button>
+<div class="label">Cross Color Custom</div>
 <div class="row">
   <div class="col">
     <label>Warna 1</label>
@@ -278,7 +280,7 @@ setTimeout(() => {
     <div class="small">Pergantian: <span id="crossSpeedLabel">1.0</span>s</div>
   </div>
  </div>
-  <div class="row" style="margin-top:6px">
+<div class="row" style="margin-top:6px">
   <div class="col">
     <div class="label">Warna Martin Strobo</div>
     <input id="martinColor" type="color" value="#ffffff" style="width:100%">
@@ -291,11 +293,10 @@ setTimeout(() => {
     </select>
   </div>
 </div>
-    <div class="footer">GEBER LIGHTING — TEAM GEBER</div>
+<div class="footer">GEBER LIGHTING — TEAM GEBER</div>
   </div>
 </div>
 <script>
-/* ========== Core from original (kept mostly intact) ========== */
 const canvas = document.getElementById('stage');
 const ctx = canvas.getContext('2d');
 ctx.imageSmoothingEnabled = true;
@@ -316,10 +317,6 @@ const ui = {
   globalColor: document.getElementById('globalColor'),
   rainbowBtn: document.getElementById('rainbowBtn'),
   goboBtn: document.getElementById('goboBtn'),
-  // prismaMode: document.getElementById('prismaMode'), // Dihapus karena diganti tombol
-  prismaRotate: document.getElementById('prismaRotate'),
-  miniBruteBtn: document.getElementById('miniBruteBtn'),
-  strobeMode: document.getElementById('strobeMode'),
   strobeSpeed: document.getElementById('strobeSpeed'),
   autoPresets: document.getElementById('autoPresets'),
   modeSelect: document.getElementById('modeSelect'),
@@ -336,8 +333,6 @@ const ui = {
   loadAll: document.getElementById('loadAll'),
   clearSlots: document.getElementById('clearSlots'),
   chaseControls: document.getElementById('chaseControls'),
-  bgFile: document.getElementById('bgFile'),
-  clearBg: document.getElementById('clearBg'),
   wallCount: document.getElementById('wallCount'),
   wallCountLabel: document.getElementById('wallCountLabel'),
   spawnWall: document.getElementById('spawnWall'),
@@ -349,7 +344,28 @@ const ui = {
   wallScale: document.getElementById('wallScale'),
   wallRotate: document.getElementById('wallRotate'),
   martinScale: document.getElementById('martinScale'),
-  martinRotate: document.getElementById('martinRotate')
+  martinRotate: document.getElementById('martinRotate'),
+  martinCount: document.getElementById("martinCount"),
+  martinCountLabel: document.getElementById("martinCountLabel"),
+  spawnMartin: document.getElementById("spawnMartin"),
+  clearMartin: document.getElementById("clearMartin"),
+  martinColor: document.getElementById("martinColor"),
+  martinColorMode: document.getElementById("martinColorMode"),
+  tronVideoFile: document.getElementById("tronVideoFile"),
+  playTron: document.getElementById("playTron"),
+  pauseTron: document.getElementById("pauseTron"),
+  clearTron: document.getElementById("clearTron"),
+  goboColorBtn: document.getElementById('goboColorBtn'),
+  goboColor1: document.getElementById('goboColor1'),
+  goboColor2: document.getElementById('goboColor2'),
+  goboColor3: document.getElementById('goboColor3'),
+  crossColorBtn: document.getElementById("crossColorBtn"),
+  colorA: document.getElementById("colorA"),
+  colorB: document.getElementById("colorB"),
+  crossSpeed: document.getElementById("crossSpeed"),
+  crossSpeedLabel: document.getElementById("crossSpeedLabel"),
+  presetSpeed: document.getElementById('presetSpeed'),
+  miniBruteToggle: document.getElementById('miniBruteToggle')
 };
 const PRESET_THRESHOLD = 95;
 const SMOOTH = 0.12;
@@ -357,19 +373,18 @@ let strobeAccum = 0;
 const state = {
   power: true,
   presetSpeed: 1.0,
- 
   dimmer: Number(ui.dimmer ? ui.dimmer.value : 95)/100,
   angle: Number(ui.beamAngle ? ui.beamAngle.value : 12),
   range: Number(ui.beamRange ? ui.beamRange.value : 900),
   globalColor: ui.globalColor ? ui.globalColor.value : '#ffffff',
   rainbow: false,
   gobo: false,
-  strobeMode: ui.strobeMode ? ui.strobeMode.value : 'off',
+  strobeMode: 'off',
   strobeSpeed: Number(ui.strobeSpeed ? ui.strobeSpeed.value : 14),
-  prismaMode: 'none', // Default diubah ke 'none'
+  prismaMode: 'none',
   prismaRotate: false,
   time: 0,
-  presetActive: new Array(8).fill(false),
+  presetActive: new Array(13).fill(false),
   heads: [],
   manualSelected: 0,
   miniBruteOn: false,
@@ -380,9 +395,17 @@ const state = {
   bgImageCanvas: null,
   miniBrutePos: { x: null, y: null },
   miniBrutes: [],
-dragTarget: null,
-dragging: false,
-dragOffset: {x:0, y:0},
+  martins: [],
+  dragTarget: null,
+  dragging: false,
+  dragOffset: {x:0, y:0},
+  selectedHead: null,
+  selectedWall: null,
+  selectedMartin: null,
+  crossColor: false,
+  goboColorFx: false,
+  goboColors: ['#ff00ff', '#ffffff', '#ff66ff'],
+  martinColorMode: 'global'
 };
 function withAlpha(color, alpha){
   if(!color) color = '#ffffff';
@@ -501,21 +524,16 @@ function presetOffset(p, t, i) {
       return { pan: Math.sin(ang) * 28, tilt: -12 + Math.cos(ang) * 8 };
     }
     case 4: {
-  // === Circle Delay Bertahap (beam makin belakang makin telat) ===
-  const speed = state.presetSpeed || 1.0;
-  const panAmp = 32;     // lebar gerak kanan-kiri
-  const tiltAmp = 32;    // tinggi naik-turun
-  const baseTilt = -7;  // posisi dasar tilt
-
-  // semakin tinggi index beam, makin delay
-  const delay = i * 0.4;  // ubah 0.5 untuk jarak antar beam
-  const ang = (state.time * 1.6 * speed) - delay;
-
-  const pan = Math.sin(ang) * panAmp;
-  const tilt = baseTilt + Math.cos(ang) * tiltAmp;
-
-  return { pan, tilt };
-}
+      const speed = state.presetSpeed || 1.0;
+      const panAmp = 32;
+      const tiltAmp = 32;
+      const baseTilt = -7;
+      const delay = i * 0.4;
+      const ang = (state.time * 1.6 * speed) - delay;
+      const pan = Math.sin(ang) * panAmp;
+      const tilt = baseTilt + Math.cos(ang) * tiltAmp;
+      return { pan, tilt };
+    }
     case 5: {
       const s = 0.9 + (i % 3) * 0.25;
       const pan = Math.sin(t * 1.6 * s * speed + i * 0.3) * (10 + (i % 3) * 6);
@@ -529,170 +547,125 @@ function presetOffset(p, t, i) {
       return { pan: Math.sin(ang) * radius * 2.2, tilt: -12 + Math.sin(t * 1.6 * speed + i * 0.6) * -14 };
     }
     case 7: {
-  // --- Pargoy Bumerang V2 (lebih cepat naik-turun, kanan-kiri lambat) ---
-  const ampPan = 38;        // gerak kanan-kiri (lebar tapi lambat)
-  const ampTilt = 10;       // naik-turun lebih tinggi dari sebelumnya
-  const panSpeed = 0.9 * speed;   // kanan-kiri lambat
-  const tiltSpeed = 6.2 * speed;  // naik-turun cepat
-  const panMod = 0.9 + 0.12 * Math.sin(t * 0.36 * speed);
-  const pan = Math.sin(t * panSpeed) * ampPan * panMod;
-  const tilt = -12 + Math.sin(t * tiltSpeed) * ampTilt;
-  return { pan, tilt };
-}
-case 8: {
-  const total = state.heads.length;
-  const mid = (total - 1) / 2;
-  const basePan = (i - mid) * 10;
-  const upTilt = -12;               
-  const downTilt = 40;              
-  const speed = (state.presetSpeed && Number(state.presetSpeed)) || 1.0;
-
-  const moveDur = 0.5 / speed;      
-  const waitAll = 0.6 / speed;      
-
-  const totalCycle = (moveDur * total * 2) + (waitAll * 2);
-  let tt = (t * 1) % totalCycle;
-
-  let pan = basePan;
-  let tilt = upTilt;
-
-  if (tt < moveDur * total + waitAll) {
-    const start = i * moveDur;
-    const end = start + moveDur;
-    if (tt >= start && tt < end) {
-      const f = (tt - start) / moveDur;
-      tilt = lerp(upTilt, downTilt, f);
-      pan = lerp(basePan, 0, f);
-    } else if (tt >= end) {
-      tilt = downTilt;
-      pan = 0;
-    } else {
-      tilt = upTilt;
-      pan = basePan;
+      const ampPan = 38;
+      const ampTilt = 10;
+      const panSpeed = 0.9 * speed;
+      const tiltSpeed = 6.2 * speed;
+      const panMod = 0.9 + 0.12 * Math.sin(t * 0.36 * speed);
+      const pan = Math.sin(t * panSpeed) * ampPan * panMod;
+      const tilt = -12 + Math.sin(t * tiltSpeed) * ampTilt;
+      return { pan, tilt };
     }
-  }
-
-  else {
-    const tt2 = tt - (moveDur * total + waitAll);
-    const start = i * moveDur;
-    const end = start + moveDur;
-    if (tt2 >= start && tt2 < end) {
-      const f = (tt2 - start) / moveDur;
-      tilt = lerp(downTilt, upTilt, f);
-      pan = lerp(0, basePan, f);
-    } else if (tt2 >= end) {
-      tilt = upTilt;
-      pan = basePan;
-    } else {
-      tilt = downTilt;
-      pan = 0;
+    case 8: {
+      const total = state.heads.length;
+      const mid = (total - 1) / 2;
+      const basePan = (i - mid) * 10;
+      const upTilt = -12;
+      const downTilt = 40;
+      const speed = (state.presetSpeed && Number(state.presetSpeed)) || 1.0;
+      const moveDur = 0.5 / speed;
+      const waitAll = 0.6 / speed;
+      const totalCycle = (moveDur * total * 2) + (waitAll * 2);
+      let tt = (t * 1) % totalCycle;
+      let pan = basePan;
+      let tilt = upTilt;
+      if (tt < moveDur * total + waitAll) {
+        const start = i * moveDur;
+        const end = start + moveDur;
+        if (tt >= start && tt < end) {
+          const f = (tt - start) / moveDur;
+          tilt = lerp(upTilt, downTilt, f);
+          pan = lerp(basePan, 0, f);
+        } else if (tt >= end) {
+          tilt = downTilt;
+          pan = 0;
+        } else {
+          tilt = upTilt;
+          pan = basePan;
+        }
+      }
+      else {
+        const tt2 = tt - (moveDur * total + waitAll);
+        const start = i * moveDur;
+        const end = start + moveDur;
+        if (tt2 >= start && tt2 < end) {
+          const f = (tt2 - start) / moveDur;
+          tilt = lerp(downTilt, upTilt, f);
+          pan = lerp(0, basePan, f);
+        } else if (tt2 >= end) {
+          tilt = upTilt;
+          pan = basePan;
+        } else {
+          tilt = downTilt;
+          pan = 0;
+        }
+      }
+      return { pan, tilt };
     }
-  }
-
-  return { pan, tilt };
-}
-case 9: {
-  // === Zigzag Opposite + Naik Turun Serempak ===
-  const speed = state.presetSpeed || 1.0;
-
-  const panAmp = 40;        // seberapa lebar kanan-kiri
-  const tiltAmp = 17;       // seberapa tinggi naik-turun
-  const panSpeed = 2.8 * speed;   // kecepatan kanan-kiri
-  const tiltSpeed = 0.5 * speed;  // naik-turun lebih lambat
-
-  const phase = (i % 2 === 0) ? 0 : Math.PI; // tiap beam berlawanan arah
-  const pan = Math.sin(state.time * panSpeed + phase) * panAmp;
-
-  // semua naik-turun bareng, tidak pakai phase
-  const tilt = -12 + Math.sin(state.time * tiltSpeed) * tiltAmp;
-
-  return { pan, tilt };
-}
-case 10: {
-  // === Zigzag Terbalik: Kanan-kiri bareng, Naik-turun berlawanan ===
-  const speed = state.presetSpeed || 1.0;
-
-  const panAmp = 40;        // lebar kanan-kiri
-  const tiltAmp = 20;       // tinggi naik-turun
-  const panSpeed = 0.5 * speed;   // kanan-kiri pelan
-  const tiltSpeed = 2.8 * speed;  // naik-turun agak cepat biar hidup
-
-  // semua beam gerak kanan-kiri bareng
-  const pan = Math.sin(state.time * panSpeed) * panAmp;
-
-  // tiap beam naik-turun berlawanan arah
-  const phase = (i % 2 === 0) ? 0 : Math.PI;
-  const tilt = -12 + Math.sin(state.time * tiltSpeed + phase) * tiltAmp;
-
-  return { pan, tilt };
-}
-case 11: {
-  // === Zigzag Terbalik: Kanan-kiri bareng, Naik-turun berlawanan ===
-  const speed = state.presetSpeed || 1.0;
-
-  const panAmp = 40;        // lebar kanan-kiri
-  const tiltAmp = 8;       // tinggi naik-turun
-  const panSpeed = 0.7 * speed;   // kanan-kiri pelan
-  const tiltSpeed = 5.8 * speed;  // naik-turun agak cepat biar hidup
-
-  // semua beam gerak kanan-kiri bareng
-  const pan = Math.sin(state.time * panSpeed) * panAmp;
-
-  // tiap beam naik-turun berlawanan arah
-  const phase = (i % 2 === 0) ? 0 : Math.PI;
-  const tilt = -11 + Math.sin(state.time * tiltSpeed + phase) * tiltAmp;
-
-  return { pan, tilt };
-}
-case 12: {
-  // === Circle Bolak-Balik Separuh Kanan-Kiri Delay (Simetris) ===
-  const speed = state.presetSpeed || 1.0;
-  const panAmp = 32;     // lebar kanan-kiri
-  const tiltAmp = 40;    // tinggi naik-turun
-  const baseTilt = -12;  // posisi dasar tilt
-
-  const total = state.heads.length;
-  const half = total / 2;          // pembagi antara kiri & kanan
-  const delayAmount = 0.35;        // besar delay antar beam
-
-  // Normalisasi index agar kedua sisi punya skala delay 0..(half-1)
-  const localIndex = (i < half) ? i : (i - half);
-  const dir = (i < half) ? 1 : -1; // separuh pertama ke kanan, separuh kedua ke kiri
-
-  // delay simetris (kiri & kanan punya nilai sama untuk posisi relatif yang sama)
-  const delay = localIndex * delayAmount;
-
-  // gerakan bolak-balik halus
-  const swing = Math.sin(state.time * 0.6 * speed);
-  const ang = dir * swing * Math.PI - delay;
-
-  const pan = Math.sin(ang) * panAmp;
-  const tilt = baseTilt + Math.cos(ang) * tiltAmp;
-
-  return { pan, tilt };
-}
-case 13: {
-  // ===  Circle Spread Delay (efek seperti di video: kipas menyebar bolak-balik) ===
-  const speed = state.presetSpeed || 1.0;
-  const panAmp = 40;     // seberapa lebar gerakan kanan-kiri
-  const tiltAmp = 8;     // sedikit gerakan naik-turun biar hidup
-  const baseTilt = -12;
-
-  const total = state.heads.length;
-  const delayAmount = 0.35; // semakin besar -> jeda antar beam makin kelihatan
-
-  // setiap beam delay makin besar, jadi menyebar dari tengah ke luar
-  const delay = i * delayAmount;
-
-  // sudut bolak-balik halus
-  const swing = Math.sin(state.time * 0.7 * speed); // gerak kanan–kiri
-  const ang = swing * Math.PI - delay;
-
-  const pan = Math.sin(ang) * panAmp;
-  const tilt = baseTilt + Math.cos(ang) * tiltAmp;
-
-  return { pan, tilt };
-}
+    case 9: {
+      const speed = state.presetSpeed || 1.0;
+      const panAmp = 40;
+      const tiltAmp = 17;
+      const panSpeed = 2.8 * speed;
+      const tiltSpeed = 0.5 * speed;
+      const phase = (i % 2 === 0) ? 0 : Math.PI;
+      const pan = Math.sin(state.time * panSpeed + phase) * panAmp;
+      const tilt = -12 + Math.sin(state.time * tiltSpeed) * tiltAmp;
+      return { pan, tilt };
+    }
+    case 10: {
+      const speed = state.presetSpeed || 1.0;
+      const panAmp = 40;
+      const tiltAmp = 20;
+      const panSpeed = 0.5 * speed;
+      const tiltSpeed = 2.8 * speed;
+      const pan = Math.sin(state.time * panSpeed) * panAmp;
+      const phase = (i % 2 === 0) ? 0 : Math.PI;
+      const tilt = -12 + Math.sin(state.time * tiltSpeed + phase) * tiltAmp;
+      return { pan, tilt };
+    }
+    case 11: {
+      const speed = state.presetSpeed || 1.0;
+      const panAmp = 40;
+      const tiltAmp = 8;
+      const panSpeed = 0.7 * speed;
+      const tiltSpeed = 5.8 * speed;
+      const pan = Math.sin(state.time * panSpeed) * panAmp;
+      const phase = (i % 2 === 0) ? 0 : Math.PI;
+      const tilt = -11 + Math.sin(state.time * tiltSpeed + phase) * tiltAmp;
+      return { pan, tilt };
+    }
+    case 12: {
+      const speed = state.presetSpeed || 1.0;
+      const panAmp = 32;
+      const tiltAmp = 40;
+      const baseTilt = -12;
+      const total = state.heads.length;
+      const half = total / 2;
+      const delayAmount = 0.35;
+      const localIndex = (i < half) ? i : (i - half);
+      const dir = (i < half) ? 1 : -1;
+      const delay = localIndex * delayAmount;
+      const swing = Math.sin(state.time * 0.6 * speed);
+      const ang = dir * swing * Math.PI - delay;
+      const pan = Math.sin(ang) * panAmp;
+      const tilt = baseTilt + Math.cos(ang) * tiltAmp;
+      return { pan, tilt };
+    }
+    case 13: {
+      const speed = state.presetSpeed || 1.0;
+      const panAmp = 40;
+      const tiltAmp = 8;
+      const baseTilt = -12;
+      const total = state.heads.length;
+      const delayAmount = 0.35;
+      const delay = i * delayAmount;
+      const swing = Math.sin(state.time * 0.7 * speed);
+      const ang = swing * Math.PI - delay;
+      const pan = Math.sin(ang) * panAmp;
+      const tilt = baseTilt + Math.cos(ang) * tiltAmp;
+      return { pan, tilt };
+    }
   }
 }
 function drawBackground(){
@@ -713,7 +686,6 @@ function drawHeadMounts(){
     ctx.strokeStyle = 'rgba(255,255,255,0.03)'; ctx.strokeRect(h.x-12, trY-26, 24, 12);
   }
 }
-// === Background Foto ===
 function drawHeadMarkers(){
   for(const h of state.heads){
     ctx.beginPath(); ctx.arc(h.x,h.y,12,0,Math.PI*2); ctx.fillStyle='#0b0e11'; ctx.fill();
@@ -748,27 +720,24 @@ function drawBeam(h){
   const computedColor = state.rainbow
     ? `hsl(${Math.round((state.time * 60 + h.id*28) % 360)},100%,60%)`
     : (h.color || state.globalColor || '#ffffff');
-
-  // === fungsi pembuat beam utama ===
+   // === fungsi pembuat beam utama ===
   function drawCone(scale, alpha, panOffset=0){
     const e = computeEndpoint(h, h.pan + panOffset, h.tilt, scale, angle);
-
     const grad = ctx.createLinearGradient(baseX, baseY, e.endX, e.endY);
     if (state.goboColorFx) {
       const c1 = state.goboColors[0];
       const c2 = state.goboColors[1];
       const c3 = state.goboColors[2];
-      const s = state.goboColorShift;
-      grad.addColorStop((0.0 + s) % 1, colorStop(c1, state.dimmer * alpha));
-      grad.addColorStop((0.25 + s) % 1, colorStop(c2, state.dimmer * alpha));
-      grad.addColorStop((0.55 + s) % 1, colorStop(c3, state.dimmer * alpha));
-      grad.addColorStop((0.85 + s) % 1, 'rgba(0,0,0,0)');
+      // ⚠️ TANPA ANIMASI PERGESERAN — gunakan posisi tetap
+      grad.addColorStop(0.0, colorStop(c1, state.dimmer * alpha));
+      grad.addColorStop(0.25, colorStop(c2, state.dimmer * alpha));
+      grad.addColorStop(0.55, colorStop(c3, state.dimmer * alpha));
+      grad.addColorStop(0.85, 'rgba(0,0,0,0)');
     } else {
       grad.addColorStop(0, colorStop(computedColor, state.dimmer * alpha));
       grad.addColorStop(0.5, colorStop(computedColor, state.dimmer * alpha * 0.12));
       grad.addColorStop(1, 'rgba(0,0,0,0)');
     }
-
     ctx.beginPath();
     ctx.moveTo(baseX, baseY);
     ctx.lineTo(e.endX - e.spread * 0.6, e.endY);
@@ -779,11 +748,7 @@ function drawBeam(h){
     ctx.fill();
     ctx.globalCompositeOperation = 'source-over';
   }
-
-  // === gambar beam utama ===
   drawCone(layers[0].scale, layers[0].alpha);
-
-  // === efek prisma / mode ===
   const pm = state.prismaMode;
   if(pm.startsWith('split')){
     const n = Number(pm.replace('split','')) || 3;
@@ -807,8 +772,6 @@ function drawBeam(h){
     for(let p=0;p<4;p++) drawCone(1.1 + p*0.05, 0.16, rot + p*2);
   }
   drawCone(layers[3].scale, layers[3].alpha);
-
-  // === efek gobo aurora ===
   if(state.gobo){
     const e = computeEndpoint(h, h.pan, h.tilt, 0.85, angle);
     ctx.save();
@@ -826,8 +789,6 @@ function drawBeam(h){
     ctx.fill();
     ctx.restore();
   }
-
-  // === titik cahaya ujung beam ===
   const ep = computeEndpoint(h, h.pan, h.tilt, 0.95, angle);
   const radius = 10 + (h.intensity||1) * 8;
   const spotGrad = ctx.createRadialGradient(ep.endX, ep.endY, 0, ep.endX, ep.endY, radius);
@@ -839,29 +800,24 @@ function drawBeam(h){
   ctx.globalCompositeOperation = 'source-over';
 }
 function drawMiniBrutes(){
-  if(!state.miniBruteOn) return; // kalau off, langsung skip
+  if(!state.miniBruteOn) return;
   if(!state.miniBrutes || state.miniBrutes.length === 0) return;
-
   for(let i=0; i<state.miniBrutes.length; i++){
     const mb = state.miniBrutes[i];
     const size = Math.min(64, Math.round(canvas.width * 0.06));
     const cx = mb.x, cy = mb.y;
     const hw = size * 1.6, hh = size * 0.95;
     const hx = cx - hw/2, hy = cy - hh/2;
-
     ctx.fillStyle = 'rgba(14,14,16,0.95)';
     ctx.fillRect(hx, hy, hw, hh);
-
     const gap = 6;
     const lampSize = Math.round(Math.min(hw, hh) / 2.6);
     const startX = hx + (hw - (lampSize*2 + gap))/2;
     const startY = hy + (hh - (lampSize*2 + gap))/2;
-
     for(let r=0; r<2; r++){
       for(let c=0; c<2; c++){
         const x = startX + c*(lampSize + gap) + lampSize/2;
         const y = startY + r*(lampSize + gap) + lampSize/2;
-
         const visible = strobeVisible(1000 + i);
         if(visible){
           const g = ctx.createRadialGradient(x, y, 0, x, y, lampSize * 1.3);
@@ -875,8 +831,6 @@ function drawMiniBrutes(){
           ctx.fill();
           ctx.globalCompositeOperation = 'source-over';
         }
-
-        // titik putih tengah
         ctx.beginPath();
         ctx.arc(x, y, lampSize * 0.25, 0, Math.PI * 2);
         ctx.fillStyle = 'rgba(255,255,255,0.9)';
@@ -885,7 +839,6 @@ function drawMiniBrutes(){
     }
   }
 }
-// STROBE LOGIC (MODIFIED)
 function strobeVisible(index){
   const mode = state.strobeMode;
   const speed = clamp(Number(state.strobeSpeed), 0.5, 200);
@@ -893,11 +846,9 @@ function strobeVisible(index){
   if(mode === 'blink') return Math.floor(strobeAccum * speed) % 2 === 0;
   if(mode === 'flow'){ const phase = (strobeAccum * speed * 2 * Math.PI) + (index * 0.6); return Math.sin(phase) > 0; }
   if(mode === 'random'){ const v = Math.sin((strobeAccum * speed * 3.14) + index * 7.13); return v > Math.cos(index * 0.3); }
-  
-  // --- NEW MODES ---
   const totalHeads = state.heads.length;
   if(mode === 'alternate'){
-    const group = index % 2; // 0 for even, 1 for odd
+    const group = index % 2;
     const timeStep = Math.floor(strobeAccum * speed);
     return timeStep % 2 === group;
   }
@@ -911,20 +862,13 @@ function strobeVisible(index){
     return index === timeStep || index === (totalHeads - 1 - timeStep);
   }
   if (mode === 'split') {
-  // === Mode 7: Split Half Beam Alternating ===
-  const half = Math.floor(totalHeads / 2);
-  const phase = Math.floor(strobeAccum * speed * 2) % 2; // 0 atau 1
-  if (phase === 0) {
-    // separuh pertama aktif
-    return index < half;
-  } else {
-    // separuh kedua aktif
-    return index >= half;
+    const half = Math.floor(totalHeads / 2);
+    const phase = Math.floor(strobeAccum * speed * 2) % 2;
+    if (phase === 0) return index < half;
+    else return index >= half;
   }
-}
   return true;
 }
-/* ====== NEW: Wallwasher & Parled implementation ====== */
 function spawnWallwashers(count){
   state.wallwashers = [];
   const margin = 40;
@@ -987,14 +931,12 @@ function spawnParleds(count){
   }
   saveStateUI();
 }
-// === MINI BRUTE ITEM BARU ===
 function spawnMiniBrutes(count){
   state.miniBrutes = [];
   const margin = 40;
   const usable = canvas.width - margin * 2;
   const spacing = count > 1 ? usable / (count - 1) : 0;
-  const y = Math.round(canvas.height * 0.25); // posisi di atas wall & parled
-
+  const y = Math.round(canvas.height * 0.25);
   for (let i = 0; i < count; i++) {
     state.miniBrutes.push({
       id: i,
@@ -1003,7 +945,6 @@ function spawnMiniBrutes(count){
       intensity: 1.0
     });
   }
-
   saveStateUI();
 }
 function drawParleds(){
@@ -1029,14 +970,12 @@ function drawParleds(){
     }
   }
 }
-
 function spawnMartins(count) {
   state.martins = [];
   const margin = 40;
   const usable = canvas.width - margin * 2;
   const spacing = count > 1 ? usable / (count - 1) : 0;
   const y = Math.round(canvas.height * 0.30);
-
   for (let i = 0; i < count; i++) {
     state.martins.push({
       id: i,
@@ -1050,8 +989,6 @@ function spawnMartins(count) {
   }
   saveStateUI();
 }
-
-// Pastikan video sudah di-load di atas
 const martinVideo = document.createElement("video");
 martinVideo.src = "https://files.catbox.moe/l2zqlc.mp4";
 martinVideo.loop = true;
@@ -1059,50 +996,34 @@ martinVideo.muted = true;
 martinVideo.playsInline= true;
 martinVideo.autoplay = true;
 martinVideo.play();
-
 function drawMartins() {
   if (!state.martins) return;
   const baseSize = Math.min(100, Math.round(canvas.width * 0.12));
-
   for (let i = 0; i < state.martins.length; i++) {
     const m = state.martins[i];
     const visible = strobeVisible(300 + i);
-
     const w = baseSize * 1.6 * (m.scale || 1);
     const h = baseSize * 1.0 * (m.scale || 1);
-
     ctx.save();
     ctx.translate(m.x, m.y);
     ctx.rotate((m.rotation || 0) * Math.PI / 180);
-
-    // Gambar frame casing
     ctx.fillStyle = "#111";
     ctx.fillRect(-w / 2, -h / 2, w, h);
     ctx.strokeStyle = "#555";
     ctx.lineWidth = 2;
     ctx.strokeRect(-w / 2, -h / 2, w, h);
-
-    // Tampilkan video strobo saat power aktif dan strobo terlihat
     if (visible && state.power) {
       try {
         ctx.drawImage(martinVideo, -w / 2, -h / 2, w, h);
-      } catch (err) {
-        // fallback kalau video belum siap
-        ctx.fillStyle = "#fff";
-        ctx.fillRect(-w * 0.45, -h * 0.08, w * 0.9, h * 0.16);
-      }
+      } catch (err) {}
     }
-
     ctx.restore();
   }
 }
-// === POINTER DOWN ===
 canvas.addEventListener('pointerdown', (e)=>{
   const r = canvas.getBoundingClientRect();
   const px = e.clientX - r.left, py = e.clientY - r.top;
   let nearest = -1, nd = 1e9;
-
-  // === cek kepala (beam head) ===
   for(const h of state.heads){
     const d = Math.hypot(px - h.x, py - h.y);
     if(d < 30 && d < nd){ nd=d; nearest=h.id; }
@@ -1118,8 +1039,6 @@ canvas.addEventListener('pointerdown', (e)=>{
     setStatus('Selected Head '+(nearest+1),700);
     return;
   }
-
-  // === cek wallwasher ===
   for(const w of state.wallwashers){
     const barH = Math.round(canvas.height * 0.36);
     const barW = Math.max(18, Math.round(canvas.width * 0.02));
@@ -1136,8 +1055,6 @@ canvas.addEventListener('pointerdown', (e)=>{
       return;
     }
   }
-
-  // === cek parled ===
   for(const p of state.parleds){
     const radius = Math.max(18, Math.round(canvas.width * 0.03));
     const d = Math.hypot(px - p.x, py - p.y);
@@ -1149,8 +1066,6 @@ canvas.addEventListener('pointerdown', (e)=>{
       return;
     }
   }
-
-  // === cek miniBrutes (versi baru multi) ===
   for(const mb of (state.miniBrutes || [])){
     const size = Math.min(64, Math.round(canvas.width * 0.06));
     const hw = size * 1.6, hh = size * 0.95;
@@ -1163,37 +1078,29 @@ canvas.addEventListener('pointerdown', (e)=>{
       return;
     }
   }
-  
-// === cek martin strobo ===
-for (const m of (state.martins || [])) {
-  const size = Math.min(100, Math.round(canvas.width * 0.12));
-  const w = size * 1.6 * (m.scale || 1);
-  const h = size * 1.0 * (m.scale || 1);
-  const hx = m.x - w / 2, hy = m.y - h / 2;
-
-  if (px >= hx && px <= hx + w && py >= hy && py <= hy + h) {
-    state.dragging = true;
-    state.dragTarget = { type: "martin", id: m.id };
-    state.dragOffset = { x: px - m.x, y: py - m.y };
-    state.selectedMartin = m.id;
-    ui.martinScale.value = m.scale || 1;
-    ui.martinRotate.value = m.rotation || 0;
-    ui.martinColor.value = m.color || "#ffffff";
-    setStatus("Selected Martin " + (m.id + 1), 700);
-    return;
+  for (const m of (state.martins || [])) {
+    const size = Math.min(100, Math.round(canvas.width * 0.12));
+    const w = size * 1.6 * (m.scale || 1);
+    const h = size * 1.0 * (m.scale || 1);
+    const hx = m.x - w / 2, hy = m.y - h / 2;
+    if (px >= hx && px <= hx + w && py >= hy && py <= hy + h) {
+      state.dragging = true;
+      state.dragTarget = { type: "martin", id: m.id };
+      state.dragOffset = { x: px - m.x, y: py - m.y };
+      state.selectedMartin = m.id;
+      ui.martinScale.value = m.scale || 1;
+      ui.martinRotate.value = m.rotation || 0;
+      ui.martinColor.value = m.color || "#ffffff";
+      setStatus("Selected Martin " + (m.id + 1), 700);
+      return;
+    }
   }
-}
 });
-
-
-// === POINTER MOVE ===
-// === POINTER MOVE ===
 canvas.addEventListener('pointermove', (e)=>{
   if(!state.dragging || !state.dragTarget) return;
   const r = canvas.getBoundingClientRect();
   const px = e.clientX - r.left, py = e.clientY - r.top;
   const t = state.dragTarget;
-
   if(t.type === 'head'){
     const h = state.heads.find(x=>x.id === t.id);
     if(h){
@@ -1234,8 +1141,6 @@ canvas.addEventListener('pointermove', (e)=>{
     }
   }
 });
-
-// === POINTER UP (pastikan ada juga ini) ===
 canvas.addEventListener('pointerup', ()=>{
   state.dragging = false;
   state.dragTarget = null;
@@ -1340,10 +1245,8 @@ function loop(now){
   if(ui.globalColor) state.globalColor = ui.globalColor.value;
   if(ui.rainbowBtn) state.rainbow = ui.rainbowBtn.textContent.indexOf('ON') >= 0;
   if(ui.goboBtn) state.gobo = ui.goboBtn.textContent.indexOf('ON') >= 0;
-  if(ui.strobeMode) state.strobeMode = ui.strobeMode.value;
   if(ui.strobeSpeed) state.strobeSpeed = Number(ui.strobeSpeed.value);
-  // if(ui.prismaMode) state.prismaMode = ui.prismaMode.value; // Dihapus karena diganti tombol
-  if(ui.prismaRotate) state.prismaRotate = ui.prismaRotate.textContent.indexOf('ON') >= 0;
+  if (ui.presetSpeed) state.presetSpeed = Number(ui.presetSpeed.value);
   for(let i=0;i<state.heads.length;i++){
     const h = state.heads[i];
     let sumPan=0, sumTilt=0, cnt=0;
@@ -1369,60 +1272,45 @@ function loop(now){
   drawMartins();
   for(const h of state.heads){
     if(strobeVisible(h.id)) drawBeam(h);
-    updateCrossColor(1);
+    updateCrossColor();
+    // ⚠️ TIDAK ADA updateGoboColorShift() → tidak ada animasi pergeseran warna
   }
   drawHeadMarkers();
   requestAnimationFrame(loop);
 }
-// === CROSS COLOR BEAM (Custom Warna + Speed Control + Auto Reset Putih) ===
 state.crossColor = false;
 let lastCrossChange = performance.now();
 let crossColorToggle = false;
-
-ui.crossColorBtn = document.getElementById("crossColorBtn");
-ui.colorA = document.getElementById("colorA");
-ui.colorB = document.getElementById("colorB");
-ui.crossSpeed = document.getElementById("crossSpeed");
-ui.crossSpeedLabel = document.getElementById("crossSpeedLabel");
-
-// update label speed saat digeser
 if (ui.crossSpeed && ui.crossSpeedLabel) {
   ui.crossSpeed.addEventListener("input", (e) => {
     ui.crossSpeedLabel.textContent = Number(e.target.value).toFixed(1);
   });
 }
-
 if (ui.crossColorBtn) {
   ui.crossColorBtn.addEventListener("click", () => {
     state.crossColor = !state.crossColor;
     ui.crossColorBtn.textContent = state.crossColor ? "CROSS COLOR ON" : "CROSS COLOR OFF";
-
     if (state.crossColor) {
       setStatus("Cross Color aktif 🎨", 700);
-      lastCrossChange = performance.now(); // reset waktu
+      lastCrossChange = performance.now();
     } else {
       setStatus("Cross Color dimatikan, reset ke putih ⚪", 700);
       for (const h of state.heads) {
-        h.color = '#ffffff'; // reset semua beam
+        h.color = '#ffffff';
       }
     }
   });
 }
-
 function updateCrossColor() {
   if (!state.crossColor) return;
-
   const now = performance.now();
   const colorA = ui.colorA?.value || '#ffffff';
   const colorB = ui.colorB?.value || '#b300ff';
-  const speedSec = parseFloat(ui.crossSpeed?.value || 1); // waktu antar pergantian (detik)
-  const delay = speedSec * 1000; // ubah ke ms
-
-  // ganti warna setiap sesuai speed
+  const speedSec = parseFloat(ui.crossSpeed?.value || 1);
+  const delay = speedSec * 1000;
   if (now - lastCrossChange >= delay) {
     lastCrossChange = now;
     crossColorToggle = !crossColorToggle;
-
     for (let i = 0; i < state.heads.length; i++) {
       const h = state.heads[i];
       const isEven = i % 2 === 0;
@@ -1442,20 +1330,15 @@ ui.rainbowBtn && ui.rainbowBtn.addEventListener('click', ()=>{
   if(on){ ui.rainbowBtn.textContent = 'RAINBOW OFF'; setStatus('Rainbow OFF',700); } else { ui.rainbowBtn.textContent = 'RAINBOW ON'; setStatus('Rainbow ON',700); }
 });
 ui.goboBtn && ui.goboBtn.addEventListener('click', ()=>{ const on = ui.goboBtn.textContent.indexOf('ON') >= 0; if(on){ ui.goboBtn.textContent='AURORA OFF'; setStatus('Aurora OFF',700); } else { ui.goboBtn.textContent='AURORA ON'; setStatus('Aurora ON',700); } });
-ui.prismaRotate && ui.prismaRotate.addEventListener('click', ()=>{ const on = ui.prismaRotate.textContent.indexOf('ON') >= 0; if(on){ ui.prismaRotate.textContent='ROTATE OFF'; setStatus('Prisma Rotate OFF',700);} else { ui.prismaRotate.textContent='ROTATE ON'; setStatus('Prisma Rotate ON',700);} });
 ui.powerBtn && ui.powerBtn.addEventListener('click', ()=>{ state.power = !state.power; ui.powerBtn.textContent = state.power ? 'POWER ON' : 'POWER OFF'; setStatus(state.power ? 'Power ON' : 'Power OFF',700); });
 ui.modeSelect && ui.modeSelect.addEventListener('change', (e)=>{ ui.manualArea.style.display = e.target.value === 'manual' ? 'block' : 'none'; setStatus('Mode '+e.target.value,700); });
 ui.manualHeadSelect && ui.manualHeadSelect.addEventListener('change', (e)=>{ state.manualSelected = Number(e.target.value); updateManualControls(state.manualSelected); });
 ui.manualPan && ui.manualPan.addEventListener('input', (e)=>{ const id = Number(ui.manualHeadSelect.value); const h = state.heads.find(x=>x.id===id); if(h) h.targetPan = Number(e.target.value); });
 ui.manualTilt && ui.manualTilt.addEventListener('input', (e)=>{ const id = Number(ui.manualHeadSelect.value); const h = state.heads.find(x=>x.id===id); if(h) h.targetTilt = Number(e.target.value); });
 ui.manualColor && ui.manualColor.addEventListener('input', (e)=>{ const id = Number(ui.manualHeadSelect.value); const h = state.heads.find(x=>x.id===id); if(h){ h.color = e.target.value; setStatus('Color set',700); } });
-// === FIXED: STROBE BUTTON INTERACTION ===
 document.addEventListener('DOMContentLoaded', () => {
   const strobeButtons = document.querySelectorAll('.strobe-btn');
-  const prismaButtons = document.querySelectorAll('.prisma-btn'); // Ambil tombol prisma baru
-  const speedSlider = document.getElementById('strobeSpeed');
-
-  // Logic untuk Strobe Buttons (tetap sama)
+  const prismaButtons = document.querySelectorAll('.prisma-btn');
   if (strobeButtons.length > 0) {
     strobeButtons.forEach(btn => {
       btn.addEventListener('click', e => {
@@ -1467,22 +1350,19 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   }
-
-  // Logic untuk Prisma Buttons (BARU)
   if (prismaButtons.length > 0) {
     prismaButtons.forEach(btn => {
       btn.addEventListener('click', e => {
         prismaButtons.forEach(b => b.classList.remove('active'));
         e.target.classList.add('active');
         const mode = e.target.dataset.mode;
-        state.prismaMode = mode; // Set state.prismaMode
+        state.prismaMode = mode;
         setStatus('Prisma mode: ' + mode, 700);
       });
     });
   }
-
-  if (speedSlider) {
-    speedSlider.addEventListener('input', e => {
+  if (ui.strobeSpeed) {
+    ui.strobeSpeed.addEventListener('input', e => {
       state.strobeSpeed = Number(e.target.value);
       setStatus('Strobe Speed: ' + e.target.value + ' Hz', 700);
     });
@@ -1499,79 +1379,23 @@ document.getElementById("miniBruteToggle").addEventListener("click", () => {
   state.miniBruteOn = !state.miniBruteOn;
   setStatus("MiniBrute " + (state.miniBruteOn ? "ON" : "OFF"), 1000);
 });
-ui.miniBruteBtn && ui.miniBruteBtn.addEventListener('click', ()=>{ state.miniBruteOn = !state.miniBruteOn; ui.miniBruteBtn.textContent = state.miniBruteOn ? 'BRUTE ON' : 'BRUTE OFF'; setStatus(state.miniBruteOn ? 'Mini Brute ON — beams paused' : 'Mini Brute OFF — beams resume',900); saveStateUI(); });
 function saveHeadSlot(hid, slot){ const st = loadStorage(); st.heads = st.heads || {}; st.heads[slot] = st.heads[slot] || {}; const h = state.heads.find(x=>x.id===hid); if(h) st.heads[slot][hid] = { pan: h.pan, tilt: h.tilt, color: h.color, ts:Date.now() }; saveStorage(st); }
 function loadHeadSlot(hid, slot){ const st = loadStorage(); if(!st.heads || !st.heads[slot] || !st.heads[slot][hid]){ setStatus('Slot empty',800); return; } const s = st.heads[slot][hid]; const h = state.heads.find(x=>x.id===hid); if(h){ h.targetPan = s.pan; h.targetTilt = s.tilt; h.color = s.color || h.color; setStatus('Head loaded',800); } }
 function saveAllSlot(slot){ const data = state.heads.map(h=>({id:h.id, pan:h.pan, tilt:h.tilt, color:h.color})); const st = loadStorage(); st.all = st.all || {}; st.all[slot] = {time:Date.now(), heads:data}; saveStorage(st); }
 function loadAllSlot(slot){ const st = loadStorage(); if(!st.all || !st.all[slot]){ setStatus('Slot empty',800); return; } const data = st.all[slot].heads; for(const d of data){ const h = state.heads.find(x=>x.id===d.id); if(h){ h.targetPan = d.pan; h.targetTilt = d.tilt; h.color = d.color || h.color; } } setStatus('All loaded',800); }
 function setStatus(text, ttl=900){ ui.powerBtn.textContent = text; clearTimeout(ui._t); ui._t = setTimeout(()=> ui.powerBtn.textContent = state.power ? 'POWER ON' : 'POWER OFF', ttl); }
-ui.bgFile && ui.bgFile.addEventListener('change', (e)=>{
-  const f = e.target.files && e.target.files[0]; if(!f) return;
+ui.tronVideoFile.addEventListener("change", (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
   const reader = new FileReader();
-  reader.onload = function(ev){
-    const img = new Image();
-    img.onload = function(){
-      const minDim = Math.min(img.naturalWidth, img.naturalHeight);
-      const sx = Math.round((img.naturalWidth - minDim)/2);
-      const sy = Math.round((img.naturalHeight - minDim)/2);
-      const off = document.createElement('canvas'); off.width = minDim; off.height = minDim;
-      const oc = off.getContext('2d');
-      oc.drawImage(img, sx, sy, minDim, minDim, 0, 0, minDim, minDim);
-      state.bgImageCanvas = off;
-      saveStateUI();
-      setStatus('Background loaded',900);
-    };
-    img.src = ev.target.result;
+  reader.onload = (ev) => {
+    createTronMediaElement(ev.target.result, file.type);
+    saveTronState(ev.target.result, file.type);
   };
-  reader.readAsDataURL(f);
+  reader.readAsDataURL(file);
 });
-ui.martinCount = document.getElementById("martinCount");
-ui.martinCountLabel = document.getElementById("martinCountLabel");
-ui.spawnMartin = document.getElementById("spawnMartin");
-ui.clearMartin = document.getElementById("clearMartin");
-
-ui.martinCount.addEventListener("input", (e) => {
-  ui.martinCountLabel.textContent = e.target.value;
-});
-
-ui.spawnMartin.addEventListener("click", () => {
-  spawnMartins(parseInt(ui.martinCount.value));
-});
-
-ui.clearMartin.addEventListener("click", () => {
-  state.martins = [];
-  saveStateUI();
-});
-ui.martinScale.addEventListener('input', (e) => {
-  if (!state.martins) return;
-  const id = state.selectedMartin ?? 0;
-  const m = state.martins[id];
-  if (m) {
-    m.scale = parseFloat(e.target.value);
-    saveStateUI();
-  }
-});
-
-ui.martinRotate.addEventListener('input', (e) => {
-  if (!state.martins) return;
-  const id = state.selectedMartin ?? 0;
-  const m = state.martins[id];
-  if (m) {
-    m.rotation = parseFloat(e.target.value);
-    saveStateUI();
-  }
-});
-ui.clearBg && ui.clearBg.addEventListener('click', ()=>{
-  state.bgImageCanvas = null; ui.bgFile.value = ''; saveStateUI(); setStatus('Background cleared',700);
-});
-/* ===== Tron Video Background ===== */
-let tronMedia = null;
-let tronMediaReady = false;
-
-// === Buat elemen media (foto / video) ===
 function createTronMediaElement(src, type) {
   if (tronMedia) tronMedia.remove();
-
   if (type.startsWith("video/")) {
     tronMedia = document.createElement("video");
     tronMedia.src = src;
@@ -1596,32 +1420,13 @@ function createTronMediaElement(src, type) {
     };
   }
 }
-
-ui.tronVideoFile = document.getElementById("tronVideoFile");
-ui.playTron = document.getElementById("playTron");
-ui.pauseTron = document.getElementById("pauseTron");
-ui.clearTron = document.getElementById("clearTron");
-
-if (ui.tronVideoFile) {
-  ui.tronVideoFile.accept = "image/*,video/*";
-  ui.tronVideoFile.addEventListener("change", (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (ev) => {
-      createTronMediaElement(ev.target.result, file.type);
-      saveTronState(ev.target.result, file.type);
-    };
-    reader.readAsDataURL(file);
-  });
-}
-
+let tronMedia = null;
+let tronMediaReady = false;
 function saveTronState(dataURL, type) {
   const st = loadStorage();
   st.tronMedia = { dataURL, type };
   saveStorage(st);
 }
-
 function restoreTronState() {
   const st = loadStorage();
   if (st.tronMedia) {
@@ -1629,7 +1434,6 @@ function restoreTronState() {
   }
 }
 restoreTronState();
-
 if (ui.playTron) ui.playTron.addEventListener("click", () => {
   if (tronMedia && tronMedia.tagName === "VIDEO") tronMedia.play();
 });
@@ -1648,17 +1452,13 @@ if (ui.clearTron) ui.clearTron.addEventListener("click", () => {
   saveStorage(st);
   setStatus("Cleared", 700);
 });
-
-// === Gambar background ===
 const originalDrawBackground = drawBackground;
 drawBackground = function() {
   ctx.fillStyle = "#000";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
-
   if (tronMediaReady && tronMedia) {
     let w = canvas.width, h = canvas.height;
     let x = 0, y = 0;
-
     if (tronMedia.videoWidth || tronMedia.naturalWidth) {
       const mediaW = tronMedia.videoWidth || tronMedia.naturalWidth;
       const mediaH = tronMedia.videoHeight || tronMedia.naturalHeight;
@@ -1674,7 +1474,6 @@ drawBackground = function() {
       x = (canvas.width - w) / 2;
       y = (canvas.height - h) / 2;
     }
-
     ctx.drawImage(tronMedia, x, y, w, h);
     ctx.fillStyle = "rgba(0,0,0,0.10)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -1682,48 +1481,64 @@ drawBackground = function() {
 };
 // === GOBO COLOR FX ===
 state.goboColorFx = false;
-state.goboColors = ['#ff00ff', '#ffffff', '#ff66ff']; // default
-state.goboColorShift = 0;
-
+state.goboColors = ['#ff00ff', '#ffffff', '#ff66ff'];
 ui.goboColorBtn = document.getElementById('goboColorBtn');
 ui.goboColor1 = document.getElementById('goboColor1');
 ui.goboColor2 = document.getElementById('goboColor2');
 ui.goboColor3 = document.getElementById('goboColor3');
-
-// ON / OFF toggle
 ui.goboColorBtn.addEventListener('click', () => {
   state.goboColorFx = !state.goboColorFx;
   ui.goboColorBtn.textContent = state.goboColorFx ? 'GOBO COLOR ON' : 'GOBO COLOR OFF';
   setStatus(state.goboColorFx ? 'Efek Gobo Warna Aktif 🎨' : 'Efek Gobo Warna Dimatikan ⚪', 700);
 });
-
-// ubah warna manual
 function updateGoboColors() {
   state.goboColors = [ui.goboColor1.value, ui.goboColor2.value, ui.goboColor3.value];
 }
 ui.goboColor1.addEventListener('input', updateGoboColors);
 ui.goboColor2.addEventListener('input', updateGoboColors);
 ui.goboColor3.addEventListener('input', updateGoboColors);
-
-// animasi perubahan warna otomatis
-function updateGoboColorShift() {
-  if (!state.goboColorFx) return;
-  state.goboColorShift += 0.005; // kecepatan rotasi warna
-  if (state.goboColorShift > 1) state.goboColorShift = 0;
-}
+// ⚠️ TIDAK ADA FUNGSI updateGoboColorShift()
 ui.wallCount && ui.wallCount.addEventListener('input', (e)=>{ ui.wallCountLabel.textContent = e.target.value; });
 ui.spawnWall && ui.spawnWall.addEventListener('click', ()=>{ const v = Number(ui.wallCount.value); spawnWallwashers(v); setStatus('Wallwashers spawned: '+v,800); });
 ui.clearWall && ui.clearWall.addEventListener('click', ()=>{ state.wallwashers = []; saveStateUI(); setStatus('Wallwashers cleared',700); });
-ui.martinColor = document.getElementById("martinColor");
-ui.martinColorMode = document.getElementById("martinColorMode");
-
 ui.martinColor.addEventListener("input", (e) => {
   if (!state.martins) return;
   const id = state.selectedMartin ?? 0;
   if (state.martins[id]) state.martins[id].color = e.target.value;
   saveStateUI();
 });
-
+ui.martinCount = document.getElementById("martinCount");
+ui.martinCountLabel = document.getElementById("martinCountLabel");
+ui.spawnMartin = document.getElementById("spawnMartin");
+ui.clearMartin = document.getElementById("clearMartin");
+ui.martinCount.addEventListener("input", (e) => {
+  ui.martinCountLabel.textContent = e.target.value;
+});
+ui.spawnMartin.addEventListener("click", () => {
+  spawnMartins(parseInt(ui.martinCount.value));
+});
+ui.clearMartin.addEventListener("click", () => {
+  state.martins = [];
+  saveStateUI();
+});
+ui.martinScale.addEventListener('input', (e) => {
+  if (!state.martins) return;
+  const id = state.selectedMartin ?? 0;
+  const m = state.martins[id];
+  if (m) {
+    m.scale = parseFloat(e.target.value);
+    saveStateUI();
+  }
+});
+ui.martinRotate.addEventListener('input', (e) => {
+  if (!state.martins) return;
+  const id = state.selectedMartin ?? 0;
+  const m = state.martins[id];
+  if (m) {
+    m.rotation = parseFloat(e.target.value);
+    saveStateUI();
+  }
+});
 ui.martinColorMode.addEventListener("change", (e) => {
   state.martinColorMode = e.target.value;
   saveStateUI();
@@ -1778,34 +1593,149 @@ canvas.addEventListener('click', (e)=>{
     }
   }
 });
-</script>
-<script>
-/* --- Start Custom JavaScript --- */
-/* Welcome! Start your JavaScript here */
-/* This will be included in <script> tags when you save the project */
-function showAlert() {
-  alert("Button clicked from JavaScript!");
+// =============== SAVE / LOAD PROJECT ===============
+function saveProjectToFile() {
+  try {
+    const projectData = {
+      version: "geber-lighting-v1",
+      timestamp: Date.now(),
+      state: {
+        power: state.power,
+        presetSpeed: state.presetSpeed,
+        dimmer: state.dimmer,
+        angle: state.angle,
+        range: state.range,
+        globalColor: state.globalColor,
+        rainbow: state.rainbow,
+        gobo: state.gobo,
+        strobeMode: state.strobeMode,
+        strobeSpeed: state.strobeSpeed,
+        prismaMode: state.prismaMode,
+        prismaRotate: state.prismaRotate,
+        presetActive: [...state.presetActive],
+        heads: state.heads.map(h => ({ ...h })),
+        wallwashers: state.wallwashers.map(w => ({ ...w })),
+        parleds: state.parleds.map(p => ({ ...p })),
+        martins: state.martins ? state.martins.map(m => ({ ...m })) : [],
+        miniBrutes: state.miniBrutes ? state.miniBrutes.map(mb => ({ ...mb })) : [],
+        miniBruteOn: state.miniBruteOn,
+        crossColor: state.crossColor,
+        goboColorFx: state.goboColorFx,
+        goboColors: [...state.goboColors],
+        martinColorMode: state.martinColorMode,
+        beamCount: Number(ui.beamCount.value || 8),
+        wallCount: Number(ui.wallCount.value || 0),
+        parCount: Number(ui.parCount.value || 0),
+        martinCount: Number(ui.martinCount.value || 0),
+        colorA: ui.colorA.value,
+        colorB: ui.colorB.value,
+        crossSpeed: ui.crossSpeed.value,
+        goboColor1: ui.goboColor1.value,
+        goboColor2: ui.goboColor2.value,
+        goboColor3: ui.goboColor3.value,
+      }
+    };
+    const blob = new Blob([JSON.stringify(projectData, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `geber_project_${new Date().toISOString().slice(0,16).replace(/:/g,'-')}.geber`;
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => {
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }, 100);
+    setStatus('Project saved!', 1200);
+  } catch (e) {
+    console.error("Save failed:", e);
+    setStatus('Save failed!', 1200);
+  }
 }
-// You can add more JS here, e.g., for interactivity
-document.addEventListener('DOMContentLoaded', () => {
-  const myBox = document.getElementById('my-box');
-  if (myBox) {
-    myBox.addEventListener('click', () => {
-      console.log('Box clicked!');
-      myBox.style.backgroundColor = '#666';
-    });
+function loadProjectFromFile(file) {
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (!data.version || !data.state) throw new Error("Invalid project file");
+      const s = data.state;
+      state.power = s.power ?? true;
+      state.presetSpeed = s.presetSpeed ?? 1.0;
+      state.dimmer = s.dimmer ?? 0.95;
+      state.angle = s.angle ?? 12;
+      state.range = s.range ?? 900;
+      state.globalColor = s.globalColor ?? '#ffffff';
+      state.rainbow = s.rainbow ?? false;
+      state.gobo = s.gobo ?? false;
+      state.strobeMode = s.strobeMode ?? 'off';
+      state.strobeSpeed = s.strobeSpeed ?? 14;
+      state.prismaMode = s.prismaMode ?? 'none';
+      state.prismaRotate = s.prismaRotate ?? false;
+      state.presetActive = s.presetActive ? [...s.presetActive] : new Array(13).fill(false);
+      state.crossColor = s.crossColor ?? false;
+      state.goboColorFx = s.goboColorFx ?? false;
+      state.goboColors = s.goboColors ? [...s.goboColors] : ['#ff00ff', '#ffffff', '#ff66ff'];
+      state.martinColorMode = s.martinColorMode ?? 'global';
+      state.miniBruteOn = s.miniBruteOn ?? false;
+      state.heads = s.heads ? s.heads.map(h => ({ ...h })) : [];
+      state.wallwashers = s.wallwashers ? s.wallwashers.map(w => ({ ...w })) : [];
+      state.parleds = s.parleds ? s.parleds.map(p => ({ ...p })) : [];
+      state.martins = s.martins ? s.martins.map(m => ({ ...m })) : [];
+      state.miniBrutes = s.miniBrutes ? s.miniBrutes.map(mb => ({ ...mb })) : [];
+      ui.beamCount.value = s.beamCount ?? state.heads.length;
+      ui.wallCount.value = s.wallCount ?? state.wallwashers.length;
+      ui.parCount.value = s.parCount ?? state.parleds.length;
+      ui.martinCount.value = s.martinCount ?? (state.martins?.length || 0);
+      ui.beamCountLabel.textContent = s.beamCount ?? state.heads.length;
+      ui.wallCountLabel.textContent = s.wallCount ?? state.wallwashers.length;
+      ui.parCountLabel.textContent = s.parCount ?? state.parleds.length;
+      ui.martinCountLabel.textContent = s.martinCount ?? (state.martins?.length || 0);
+      ui.powerBtn.textContent = state.power ? 'POWER ON' : 'POWER OFF';
+      ui.rainbowBtn.textContent = state.rainbow ? 'RAINBOW ON' : 'RAINBOW OFF';
+      ui.goboBtn.textContent = state.gobo ? 'AURORA ON' : 'AURORA OFF';
+      ui.crossColorBtn.textContent = state.crossColor ? 'CROSS COLOR ON' : 'CROSS COLOR OFF';
+      ui.goboColorBtn.textContent = state.goboColorFx ? 'GOBO COLOR ON' : 'GOBO COLOR OFF';
+      ui.miniBruteToggle.textContent = state.miniBruteOn ? 'BRUTE ON' : 'BRUTE OFF';
+      document.querySelectorAll('.prisma-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.mode === state.prismaMode);
+      });
+      document.querySelectorAll('.strobe-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.mode === state.strobeMode);
+      });
+      if (s.colorA) ui.colorA.value = s.colorA;
+      if (s.colorB) ui.colorB.value = s.colorB;
+      if (s.crossSpeed) {
+        ui.crossSpeed.value = s.crossSpeed;
+        ui.crossSpeedLabel.textContent = Number(s.crossSpeed).toFixed(1);
+      }
+      if (s.goboColor1) ui.goboColor1.value = s.goboColor1;
+      if (s.goboColor2) ui.goboColor2.value = s.goboColor2;
+      if (s.goboColor3) ui.goboColor3.value = s.goboColor3;
+      buildManualSelect();
+      buildPresetsUI();
+      const faders = document.querySelectorAll('.presetFader');
+      state.presetActive.forEach((active, i) => {
+        if (faders[i]) faders[i].value = active ? 100 : 0;
+      });
+      setStatus('Project loaded!', 1500);
+    } catch (err) {
+      console.error("Load failed:", err);
+      setStatus('Invalid project file!', 1500);
+    }
+  };
+  reader.readAsText(file);
+}
+document.getElementById('saveProjectBtn').addEventListener('click', saveProjectToFile);
+document.getElementById('loadProjectBtn').addEventListener('click', () => {
+  document.getElementById('loadProjectInput').click();
+});
+document.getElementById('loadProjectInput').addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if (file) {
+    loadProjectFromFile(file);
+    e.target.value = '';
   }
 });
-/* --- End Custom JavaScript --- */
-const presetSpeed = document.getElementById('presetSpeed');
-const presetSpeedLabel = document.getElementById('presetSpeedLabel');
-if (presetSpeed) {
-  presetSpeed.addEventListener('input', e => {
-    state.presetSpeed = Number(e.target.value);
-    presetSpeedLabel.textContent = state.presetSpeed.toFixed(1) + 'x';
-    setStatus('Preset Speed ' + state.presetSpeed.toFixed(1) + 'x', 700);
-  });
-}
 </script>
 </body>
 </html>
