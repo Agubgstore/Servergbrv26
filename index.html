@@ -1593,9 +1593,8 @@ canvas.addEventListener('click', (e)=>{
     }
   }
 });
-// =============== SAVE / LOAD PROJECT ===============
-// =============== SAVE / LOAD PROJECT (ANDROID FIX) ===============
-function saveProjectToFile() {
+// =============== SAVE / LOAD PROJECT (UPLOAD TO SERVER FIX) ===============
+async function saveProjectToFile() {
   try {
     const projectData = {
       version: "geber-lighting-v1",
@@ -1637,23 +1636,30 @@ function saveProjectToFile() {
       }
     };
 
-    // === GANTI bagian blob menjadi data URL ===
-    const json = JSON.stringify(projectData, null, 2);
-    const base64Data = btoa(unescape(encodeURIComponent(json)));
-    const dataUrl = "data:application/json;base64," + base64Data;
+    // 🌐 URL server kamu
+    const serverUrl = "https://geber-save.vercel.app/api/save";
 
-    const a = document.createElement("a");
-    a.href = dataUrl;
-    a.download = `Geber_Preset_${new Date().toISOString().slice(0,16).replace(/:/g,'-')}.geber`;
-    a.style.display = "none";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+    setStatus("Uploading project...", 1200);
 
-    setStatus('Project saved!', 1200);
+    const res = await fetch(serverUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(projectData)
+    });
+
+    const result = await res.json();
+
+    if (result.url) {
+      // ✅ Buka link download langsung di aplikasi (tidak buka Chrome)
+      window.location.href = result.url;
+      setStatus("Project uploaded & ready to download!", 1500);
+    } else {
+      setStatus("Upload failed!", 1500);
+    }
+
   } catch (e) {
     console.error("Save failed:", e);
-    setStatus('Save failed!', 1200);
+    setStatus("Save failed!", 1500);
   }
 }
 function loadProjectFromFile(file) {
