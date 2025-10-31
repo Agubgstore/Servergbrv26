@@ -1594,6 +1594,7 @@ canvas.addEventListener('click', (e)=>{
   }
 });
 // =============== SAVE / LOAD PROJECT ===============
+// =============== SAVE / LOAD PROJECT (ANDROID FIX) ===============
 function saveProjectToFile() {
   try {
     const projectData = {
@@ -1635,17 +1636,20 @@ function saveProjectToFile() {
         goboColor3: ui.goboColor3.value,
       }
     };
-    const blob = new Blob([JSON.stringify(projectData, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `geber_project_${new Date().toISOString().slice(0,16).replace(/:/g,'-')}.geber`;
+
+    // === GANTI bagian blob menjadi data URL ===
+    const json = JSON.stringify(projectData, null, 2);
+    const base64Data = btoa(unescape(encodeURIComponent(json)));
+    const dataUrl = "data:application/json;base64," + base64Data;
+
+    const a = document.createElement("a");
+    a.href = dataUrl;
+    a.download = `Geber_Preset_${new Date().toISOString().slice(0,16).replace(/:/g,'-')}.geber`;
+    a.style.display = "none";
     document.body.appendChild(a);
     a.click();
-    setTimeout(() => {
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    }, 100);
+    document.body.removeChild(a);
+
     setStatus('Project saved!', 1200);
   } catch (e) {
     console.error("Save failed:", e);
